@@ -12,6 +12,8 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
+app.use(cors())
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -53,7 +55,6 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/cars', require('./routes/cars'))
-
 app.use('/user', auth, require('./routes/user'))
 app.use('/auth', require('./routes/auth'))
 
