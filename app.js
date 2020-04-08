@@ -41,11 +41,21 @@ app.use(session({
  }));
 
 
- 
+ function auth(req,res,next){
+  if (req.session.currentUser){
+    res.locals.user = req.session.currentUser;
+    next()
+  } else {
+    res.json({message:'Please log in to access this page'})
+  }
+}
+
+
 app.use('/', indexRouter);
 app.use('/cars', require('./routes/cars'))
-app.use('/user', require('./routes/user'))
 
+app.use('/user', auth, require('./routes/user'))
+app.use('/auth', require('./routes/auth'))
 
 
 module.exports = app;

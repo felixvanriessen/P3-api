@@ -12,6 +12,14 @@ router.get('/all', function(req, res, next) {
   .catch(err=>console.log(err))
 });
 
+router.get('/find/:id', function(req,res,next) {
+  Cars.findById(req.params.id)
+  .then(car=>{
+    res.json(car)
+  })
+  .catch(err=>res.json({message:err}))
+})
+
 router.post('/new', function(req,res,next) {
   Cars.create({
     name:req.body.name, 
@@ -26,6 +34,14 @@ router.post('/new', function(req,res,next) {
     res.json(newCar)
   })
   .catch(err=>console.log(err))
+})
+
+router.get('/remove/:id', function(req,res,next) {
+  Cars.findByIdAndDelete(req.params.id)
+  .then(response => {
+    res.json({message:'Car deleted'})
+  })
+  .catch(err=>res.json({message:err}))
 })
 
 
