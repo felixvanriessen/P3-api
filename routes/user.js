@@ -13,9 +13,16 @@ router.get('/', function(req,res,next){
 })
 
 router.post('/edit', function(req,res,next) {
-   User.findOneAndUpdate({username:req.body.username})
+   User.findOneAndUpdate({_id:req.body._id}, {
+      username:req.body.username,
+      email:req.body.email,
+      tel:req.body.tel
+   })
    .then(user=>{
-      res.json(user)
+      User.findOne({_id:req.body._id})
+      .then(gotuser=> {
+         res.json(gotuser)
+      })
    })
    .catch(err=>res.json({message:err}))
 })

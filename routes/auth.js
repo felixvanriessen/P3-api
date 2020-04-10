@@ -25,7 +25,6 @@ router.post('/signup', function(req, res, next) {
    })
 });
 
-
 router.post('/login', function(req,res,next) {
    User.findOne({username:req.body.username})
    .then(user=>{
@@ -36,7 +35,8 @@ router.post('/login', function(req,res,next) {
             if (!result) res.json({message:"Invalid credentials"})
             else {
                req.session.currentUser = user
-               res.json({message:'Logged in'})
+               console.log('LOGGED IN & CURRENT USER =', req.session.currentUser)
+               res.json({message:'Logged in', user:user})
             }
          })
       }
@@ -46,7 +46,12 @@ router.post('/login', function(req,res,next) {
    })
 })
 
+// router.post('', function(req,res,next){
+//    User.findOne({})
+// })
+
 router.get('/logout', function(req,res,next) {
+   console.log(req.session.currentUser)
    req.session.destroy(()=>{
    res.json({message:'Logged out'})
   })

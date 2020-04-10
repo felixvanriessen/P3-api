@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
-app.use(cors())
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -20,17 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose
-  .connect(process.env.db, {
-     useNewUrlParser: true,
-      useUnifiedTopology: true
-   })
-  .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-  })
-  .catch(err => {
-    console.error('Error connecting to mongo', err)
-  });
 
 
 app.use(session({
@@ -43,15 +32,34 @@ app.use(session({
  }));
 
 
- function auth(req,res,next){
-  if (req.session.currentUser){
-    res.locals.user = req.session.currentUser;
-    next()
-  } else {
-    res.json({message:'Please log in to access this page'})
-  }
+
+mongoose
+  .connect(process.env.db, {
+     useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify:false
+   })
+  .then(x => {
+    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+  })
+  .catch(err => {
+    console.error('Error connecting to mongo', err)
+  });
+
+
+function auth(req,res,next){
+    console.log('CURRENT USER', req.session.currentUser)
+    if (req.session.currentUser){
+      next()
+    } else {
+      res.json({message:"Not logged in on back-end"})
+    }
 }
 
+app.use(cors({
+  origin: ["http://localhost:3000","https://localhost:3000"],
+  credentials: true
+}))
 
 app.use('/', indexRouter);
 app.use('/cars', require('./routes/cars'))

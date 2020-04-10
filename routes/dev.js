@@ -22,10 +22,10 @@ router.get('/adduser', function(req,res,next){
    .catch(err=>console.log(err))
 })
 
-router.get('/addcar', function(req,res,next){
+router.get('/addcar/:page', function(req,res,next){
    User.find()
    .then(userList=>{
-      scrapeCars(2,500,20000).then((data)=>{
+      scrapeCars(req.params.page,500,20000).then((data)=>{
          let cars = genCar(userList,data)
          cars.forEach(car=>{
             Cars.create({
@@ -38,7 +38,6 @@ router.get('/addcar', function(req,res,next){
             })
             .then(response=>{
                console.log('car created: ' + car.name)
-               console.log(response)
                res.json({message:`Success! Added ${cars.length} cars to the database`})
             })
             .catch(err=>console.log(err))

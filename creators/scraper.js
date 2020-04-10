@@ -31,7 +31,17 @@ return (
    .then(response=> {
       let $ = cheerio.load(response.data)
 
-      let details = []
+      let imgs = []
+
+      for (let n = 0; n < 20; n++){
+         let c1 = $('.cldt-summary-gallery')[n]
+         let c2 = $(c1).children()[0]
+         let c3 = $(c2).children()[0]
+         let c4 = $(c3).children().last()
+         let img = $(c4).attr('data-src')
+         imgs.push(img)
+      }
+
 
       let names = $('h2.cldt-summary-makemodel').map((i,el)=>{
          return $(el).text()
@@ -42,6 +52,7 @@ return (
          prices.push($(el).text())
       })
 
+      let details = []
       $('div.cldt-summary-vehicle-data ul').each((i,el)=>{
          let $km = $(el).children()[0]
          let $yr = $(el).children()[1]
@@ -68,26 +79,19 @@ return (
                price:nprice,
                km:nkm2,
                year:nyr,
-               image:''
+               image:imgs[n]
             }
             data.push(obj)
          }
          
       }
+      // console.log(data.length, ' cars found')
+      // console.log(data)
       return data
    })
    .catch(err=>console.log(err))
 )
 }
-
-console.log(scrapeCars(1,500,2000))
-
-
-
-
-// const fs = require('fs'),jsondata=JSON.stringify(details)
-// fs.writeFile('../cardata.json', jsondata, function(err){
-//    if (err) console.log(err)
-// })
+// let x = scrapeCars(1,500,20000)
 
 module.exports = scrapeCars
