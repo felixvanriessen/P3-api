@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Cars = require('../models/CarModel')
 
-/* GET home page. */
+//get all cars
 router.get('/all', function(req, res, next) {
   Cars.find()
   .populate('owner')
@@ -12,23 +12,25 @@ router.get('/all', function(req, res, next) {
   .catch(err=>console.log(err))
 });
 
+//get one car by id
 router.get('/find/:id', function(req,res,next) {
   Cars.findById(req.params.id)
+  .populate('owner')
   .then(car=>{
     res.json(car)
   })
   .catch(err=>res.json({message:err}))
 })
 
+//post new car
 router.post('/new', function(req,res,next) {
   Cars.create({
     name:req.body.name, 
     price:req.body.price,
     kilometers:req.body.kilometers,
     year:req.body.year,
-    extras:req.body.extras,
     image:req.body.image,
-    owner:"5e8da85f3a60372203880e89"
+    owner:req.body.owner
   })
   .then(newCar => {
     res.json(newCar)
@@ -36,6 +38,7 @@ router.post('/new', function(req,res,next) {
   .catch(err=>console.log(err))
 })
 
+//remove car
 router.get('/remove/:id', function(req,res,next) {
   Cars.findByIdAndDelete(req.params.id)
   .then(response => {

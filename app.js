@@ -57,6 +57,7 @@ app.use('/', indexRouter);
 app.use('/cars', require('./routes/cars'))
 app.use('/user', auth, require('./routes/user'))
 app.use('/auth', require('./routes/auth'))
+app.use('/dev', require('./routes/dev'))
 
 
 module.exports = app;

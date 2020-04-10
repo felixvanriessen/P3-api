@@ -1,11 +1,10 @@
 const mongoose = require('mongoose')
 
-const CarModel = mongoose.model('cars', {
+const CarModel = mongoose.model('vehicles', {
    name:String, 
    price:Number,
    kilometers:Number,
-   year:String,
-   extras:[String],
+   year:Number,
    image:String,
    owner:{ type: mongoose.Types.ObjectId, ref: 'users' }
 })
