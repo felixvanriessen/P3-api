@@ -3,6 +3,14 @@ var router = express.Router();
 var User = require('../models/UserModel')
 const bcrypt = require('bcrypt')
 
+router.get('/userlist', function(req,res,next){
+   User.find()
+   .then(users=>{
+      res.json(users)
+   })
+   .catch(err=>console.log(err))
+})
+
 router.post('/signup', function(req, res, next) {
    User.findOne({username:req.body.username})
    .then(existingUser=>{

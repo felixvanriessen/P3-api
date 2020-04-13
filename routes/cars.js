@@ -32,8 +32,8 @@ router.post('/new', function(req,res,next) {
     image:req.body.image,
     owner:req.body.owner
   })
-  .then(newCar => {
-    res.json(newCar)
+  .then(car => {
+    res.json(car)
   })
   .catch(err=>console.log(err))
 })
