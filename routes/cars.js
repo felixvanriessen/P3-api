@@ -40,12 +40,20 @@ router.post('/new', function(req,res,next) {
 
 //remove car
 router.get('/remove/:id', function(req,res,next) {
-  Cars.findByIdAndDelete(req.params.id)
+  Cars.findOneAndDelete({_id:req.params.id})
   .then(response => {
-    res.json({message:'Car deleted'})
+    console.log(response)
+    res.json({message:'success'})
   })
   .catch(err=>res.json({message:err}))
 })
 
+router.get('/owned/:id', function(req,res,next) {
+  Cars.find({owner:req.params.id})
+  .then(cars=>{
+    res.json(cars)
+  })
+  .catch(err=>console.log(err))
+})
 
 module.exports = router;
