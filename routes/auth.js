@@ -43,7 +43,6 @@ router.post('/login', function(req,res,next) {
             if (!result) res.json({message:"Invalid credentials"})
             else {
                req.session.currentUser = user
-               console.log('LOGGED IN & CURRENT USER =', req.session.currentUser)
                res.json({message:'Logged in', user:user})
             }
          })
@@ -59,7 +58,6 @@ router.post('/login', function(req,res,next) {
 // })
 
 router.get('/logout', function(req,res,next) {
-   console.log(req.session.currentUser)
    req.session.destroy(()=>{
    res.json({message:'Logged out'})
   })
