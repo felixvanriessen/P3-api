@@ -50,6 +50,7 @@ mongoose
 function auth(req,res,next){
     console.log('CURRENT USER', req.session.currentUser)
     if (req.session.currentUser){
+      console.log(req.session.currentUser)
       next()
     } else {
       res.json({message:"Not logged in on back-end"})
@@ -57,7 +58,7 @@ function auth(req,res,next){
 }
 
 app.use(cors({
-  origin: ["http://localhost:3000","https://localhost:3000"],
+  origin: [process.env.client_origin_a,process.env.client_origin_b],
   credentials: true
 }))
 
@@ -66,6 +67,7 @@ app.use('/cars', require('./routes/cars'))
 app.use('/user', auth, require('./routes/user'))
 app.use('/auth', require('./routes/auth'))
 app.use('/dev', require('./routes/dev'))
+app.use('/msg', require('./routes/msg'))
 
 
 module.exports = app;

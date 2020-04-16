@@ -33,7 +33,6 @@ router.post('/new', function(req,res,next) {
     owner:req.body.owner
   })
   .then(car => {
-    console.log(car)
     res.json(car)
   })
   .catch(err=>console.log(err))

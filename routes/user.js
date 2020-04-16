@@ -21,6 +21,7 @@ router.post('/edit', function(req,res,next) {
    .then(user=>{
       User.findOne({_id:req.body._id})
       .then(gotuser=> {
+
          res.json(gotuser)
       })
    })
