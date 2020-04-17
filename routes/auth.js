@@ -27,6 +27,7 @@ router.post('/signup', function(req, res, next) {
                tel:req.body.tel
             })
             .then(newUser=>{
+               req.session.currentUser = user
                res.json(newUser)
             })
             .catch(err=>res.json({message:err}))
@@ -46,6 +47,7 @@ router.post('/login', function(req,res,next) {
             if (!result) res.json({message:"Invalid credentials"})
             else {
                req.session.currentUser = user
+               console.log(req.session.currentUser)
                res.json({message:'Logged in', user:user})
             }
          })
