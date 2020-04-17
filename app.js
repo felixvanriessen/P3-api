@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
    secret: "basic-auth-secret",
-   cookie: { maxAge: 600000 },
+   cookie: { maxAge: 1200000 },
    store: new MongoStore({
      mongooseConnection: mongoose.connection,
      ttl: 24 * 60 * 60 // 1 day
@@ -61,7 +61,10 @@ function auth(req,res,next){
 
 //cors access for client
 app.use(cors({
-  origin: [process.env.client_origin_a,process.env.client_origin_b],
+  origin: [
+    process.env.client_origin_a,
+    process.env.client_origin_b
+  ],
   credentials: true
 }))
 

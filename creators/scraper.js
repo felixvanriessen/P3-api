@@ -93,8 +93,9 @@ return (
       return data
    })
    .catch(err=>console.log(err))
-)
-}
+)}
+
+
 // let x = scrapeCars(1,500,20000)
 
 module.exports = scrapeCars
