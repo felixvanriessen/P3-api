@@ -48,7 +48,6 @@ mongoose
 
 //check if user has a session
 function auth(req,res,next){
-    console.log(req.session.currentUser)
     if (req.session.currentUser){
       next()
     } else {
