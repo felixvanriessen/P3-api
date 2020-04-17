@@ -13,14 +13,17 @@ router.get('/', function(req,res,next){
 })
 
 router.post('/edit', function(req,res,next) {
+   console.log(req.session.currentUser)
    User.findOneAndUpdate({_id:req.body._id}, {
       username:req.body.username,
       email:req.body.email,
       tel:req.body.tel
    })
    .then(user=>{
+      console.log(req.session.currentUser)
       User.findOne({_id:req.body._id})
       .then(gotuser=> {
+         console.log(req.session.currentUser)
          res.json(gotuser)
       })
    })
