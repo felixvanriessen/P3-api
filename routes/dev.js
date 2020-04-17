@@ -7,7 +7,7 @@ const genUser = require('../creators/usercreator')
 const scrapeCars = require('../creators/scraper')
 const genCar = require('../creators/carcreator')
 
-
+//add randomly generated user to the database
 router.get('/adduser', function(req,res,next){
    let newUser = genUser()
    User.create({
@@ -22,6 +22,7 @@ router.get('/adduser', function(req,res,next){
    .catch(err=>console.log(err))
 })
 
+//add 20 cars from autoscout24.nl, param selects page number for site
 router.get('/addcar/:page', function(req,res,next){
    User.find()
    .then(userList=>{

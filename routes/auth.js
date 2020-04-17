@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/UserModel')
 const bcrypt = require('bcrypt')
 
+//userlist (for checking if username exists on signup)
 router.get('/userlist', function(req,res,next){
    User.find()
    .then(users=>{
@@ -11,6 +12,7 @@ router.get('/userlist', function(req,res,next){
    .catch(err=>console.log(err))
 })
 
+//signup
 router.post('/signup', function(req, res, next) {
    User.findOne({username:req.body.username})
    .then(existingUser=>{
@@ -33,6 +35,7 @@ router.post('/signup', function(req, res, next) {
    })
 });
 
+//login
 router.post('/login', function(req,res,next) {
    User.findOne({username:req.body.username})
    .then(user=>{
@@ -53,10 +56,7 @@ router.post('/login', function(req,res,next) {
    })
 })
 
-// router.post('', function(req,res,next){
-//    User.findOne({})
-// })
-
+//logout
 router.get('/logout', function(req,res,next) {
    req.session.destroy(()=>{
    res.json({message:'Logged out'})

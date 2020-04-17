@@ -1,4 +1,6 @@
 
+
+//attach ownerIDs to car objects randomly
 const genCar = (userList, carList) => {
    let cars = carList.map(car => {
       let i = Math.floor(Math.random()*userList.length)

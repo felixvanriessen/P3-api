@@ -46,7 +46,7 @@ mongoose
     console.error('Error connecting to mongo', err)
   });
 
-
+//check if user has a session
 function auth(req,res,next){
     console.log(req.session.currentUser)
     if (req.session.currentUser){
@@ -60,17 +60,19 @@ function auth(req,res,next){
     }
 }
 
+//cors access for client
 app.use(cors({
   origin: [process.env.client_origin_a,process.env.client_origin_b],
   credentials: true
 }))
 
+
 app.use('/', indexRouter);
 app.use('/cars', require('./routes/cars'))
-app.use('/user', auth, require('./routes/user'))
 app.use('/auth', require('./routes/auth'))
-app.use('/dev', require('./routes/dev'))
+app.use('/user', auth, require('./routes/user'))
 app.use('/msg', require('./routes/msg'))
+app.use('/dev', require('./routes/dev'))
 
 
 module.exports = app;

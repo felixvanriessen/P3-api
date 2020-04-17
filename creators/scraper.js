@@ -6,7 +6,7 @@ const cheerio = require('cheerio')
 // const urlToScrape = "https://www.autoscout24.nl/lst/?sort=age&desc=1&offer=J%2CU%2CO%2CD&ustate=N%2CU&size=10&page=3&cy=NL&priceto=20000&pricefrom=1000&atype=C&"
 // const urlX = `https://www.autoscout24.nl/lst/?sort=age&desc=1&offer=J%2CU%2CO%2CD&ustate=N%2CU&size=${size}&page=${page}&cy=NL&priceto=${priceto}&pricefrom=${pricefrom}&atype=C&`
 
-
+//format KM correctly
 function fixKM(nkm) {
    let km = 0
    let kmcopy = nkm.filter(el=>{
@@ -16,6 +16,7 @@ function fixKM(nkm) {
    return Number(km)
 }
 
+//format price correctly
 function fixPrice(nprice) {
    let price = nprice.filter(p=>{
       if (p.match(/[0-9]/)) return true
@@ -24,15 +25,16 @@ function fixPrice(nprice) {
    return finalprice
 }
 
-
+//scrape and return 20 cars from autoscout24.nl with 'page', 'priceto' and 'pricefrom'
 function scrapeCars(page, priceto, pricefrom){
 return (
    axios.get(`https://www.autoscout24.nl/lst/?sort=age&desc=1&offer=J%2CU%2CO%2CD&ustate=N%2CU&size=20&page=${page}&cy=NL&priceto=${priceto}&pricefrom=${pricefrom}&atype=C&`)
    .then(response=> {
+      //site data given to cheerio
       let $ = cheerio.load(response.data)
 
+      //get car images
       let imgs = []
-
       for (let n = 0; n < 20; n++){
          let c1 = $('.cldt-summary-gallery')[n]
          let c2 = $(c1).children()[0]
@@ -42,16 +44,18 @@ return (
          imgs.push(img)
       }
 
-
+      //get car names
       let names = $('h2.cldt-summary-makemodel').map((i,el)=>{
          return $(el).text()
       }).get()
 
+      //get car prices
       let prices = []
       $('span.cldt-price').each((i,el)=>{
          prices.push($(el).text())
       })
 
+      //get car year and km
       let details = []
       $('div.cldt-summary-vehicle-data ul').each((i,el)=>{
          let $km = $(el).children()[0]
@@ -67,6 +71,7 @@ return (
          ])
       })
 
+      //makes car objects from collected info above
       let data = []
       if (names.length > 0){
          for (let n = 0; n < 20; n++){
@@ -85,8 +90,6 @@ return (
          }
          
       }
-      // console.log(data.length, ' cars found')
-      // console.log(data)
       return data
    })
    .catch(err=>console.log(err))
