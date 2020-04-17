@@ -48,10 +48,15 @@ mongoose
 
 
 function auth(req,res,next){
+    console.log(req.session.currentUser)
     if (req.session.currentUser){
       next()
     } else {
-      res.json({message:"Not logged in on back-end"})
+      let err = {
+        message:'Not logged in on DB',
+        user:req.session.currentUser
+      }
+      res.json(err)
     }
 }
 

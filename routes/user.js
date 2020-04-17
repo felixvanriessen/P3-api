@@ -3,15 +3,17 @@ var router = express.Router();
 const User = require('../models/UserModel')
 
 
-//remove this GET route before deploy!
-router.get('/', function(req,res,next){
-   User.find()
-   .then(users=>{
-      res.json(users)
-   })
-   .catch(err=>res.json({message:err}))
-})
+//only used in testing
+// router.get('/', function(req,res,next){
+//    User.find()
+//    .then(users=>{
+//       res.json(users)
+//    })
+//    .catch(err=>res.json({message:err}))
+// })
 
+
+//edit user details
 router.post('/edit', function(req,res,next) {
    console.log('EDITING USER')
    console.log(req.session.currentUser)
